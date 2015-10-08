@@ -1,10 +1,9 @@
-import os
 from sklearn.base import BaseEstimator
 from sklearn.svm import LinearSVC
 from sklearn.multiclass import OneVsRestClassifier
-import os
 import numpy as np
 from scattering import ScatteringTransform
+
 
 class Classifier(BaseEstimator):
     def __init__(self):
@@ -31,7 +30,6 @@ class Classifier(BaseEstimator):
 
     def fit(self, X, y):
         X = self.preprocess(X)
-        X = self.transform(X)
         print('Start fitting')
         self.clf.fit(X, self.preprocess_y(y))
         return self
