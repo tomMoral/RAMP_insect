@@ -36,7 +36,6 @@ class Classifier(BaseEstimator):
 
     def predict(self, X):
         X = self.preprocess(X)
-        X = self.transform(X)
         return self.clf.predict(X)
 
     def predict_proba(self, X):
