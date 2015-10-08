@@ -15,7 +15,7 @@ class EarlyStopping(object):
     def __init__(self, patience=100, criterion='valid_loss',
                  criterion_smaller_is_better=True):
         self.patience = patience
-        self.best_valid = np.inf
+        self.best_valid = -np.inf
         self.best_valid_epoch = 0
         self.best_weights = None
         self.criterion = criterion
@@ -24,11 +24,7 @@ class EarlyStopping(object):
     def __call__(self, nn, train_history):
         current_valid = train_history[-1][self.criterion]
         current_epoch = train_history[-1]['epoch']
-        if self.criterion_smaller_is_better:
-            cond = current_valid < self.best_valid
-        else:
-            cond = current_valid > self.best_valid
-        if cond:
+        if current_valid > self.best_valid:
             self.best_valid = current_valid
             self.best_valid_epoch = current_epoch
             self.best_weights = nn.get_all_params_values()
@@ -105,7 +101,6 @@ class Classifier(BaseEstimator):
         i0 = np.random.choice(N, N/2)
         X_train.extend([X_train[i]+.1*np.random.normal(size=(44, 44)) for i in i0])
         y_train.extend([y_train[i] for i in i0])
-        print(len(X_train), len(y_train))
         X_train = np.array(X_train).astype(np.float32)
         return X_train, np.array(y_train)
 
